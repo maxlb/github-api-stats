@@ -1,0 +1,33 @@
+{
+  "name": "github-api-stats",
+  "version": "1.0.0",
+  "description": "Get stats from GitHub using GraphQL API",
+  "main": "server.js",
+  "engines": {
+    "node": "9.11.x"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxlb/github-api-stats.git"
+  },
+  "keywords": [
+    "api",
+    "rest"
+  ],
+  "author": "Maxime LE BAIL",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxlb/github-api-stats/issues"
+  },
+  "homepage": "https://github.com/maxlb/github-api-stats#readme"
+}
