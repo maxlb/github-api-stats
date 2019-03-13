@@ -18,10 +18,11 @@ myRouter.route('/').get(function(req,res){
 		</style>																																								\
 		<h1>API de statistique d'une organisation GitHub</h1> 																	\
 		<ul> 																																										\
-			<li><b>/basicStats/token/login/Org</b> pour obtenir toutes les stats de l'organisation </li> 		\
-			<li><b>/nbMembresStats/token/login/Org</b> pour obtenir le nombre de membres de l'organisation </li> 		\
-			<li><b>/nbRepoStats/token/login/Org</b> pour obtenir le nombre de repertoires de l'organisation </li> 		\
-			<li><b>/populareLanguages/token/login/Org</b> pour obtenir les langages populaires de l'organisation </li>				\
+			<li><b>/basicStats/{TOKEN_GIT}/{LOGIN_GIT}/{NOM_ORGANISATION}</b> pour obtenir toutes les stats de l'organisation </li> 		\
+			<li><b>/nbMembresStats/{TOKEN_GIT}/{LOGIN_GIT}/{NOM_ORGANISATION}</b> pour obtenir le nombre de membres de l'organisation </li> 		\
+			<li><b>/nbRepoStats/{TOKEN_GIT}/{LOGIN_GIT}/{NOM_ORGANISATION}</b> pour obtenir le nombre de répertoires de l'organisation </li> 		\
+			<li><b>/populareLanguages/{TOKEN_GIT}/{LOGIN_GIT}/{NOM_ORGANISATION}</b> pour obtenir le nombre de répertoires par langages de l'organisation </li>				\
+			<li><b>/popularePL/{TOKEN_GIT}/{LOGIN_GIT}/{NOM_ORGANISATION}</b> pour obtenir les membres de l'organisation ayant effectué des PullRequest sur des projets populaires (plus de 1000 étoiles) </li> \
 		</ul> 																																									\
 	"
 	res.send(html);
@@ -30,7 +31,7 @@ myRouter.route('/').get(function(req,res){
 myRouter.route('/:stat/:token/:login/:orga').get(async function(req,res){ 
 
 	res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  	res.setHeader('Access-Control-Allow-Methods', 'GET');
 
 	console.log(`Server - Appel ${req.params.stat}`);
 
@@ -55,6 +56,12 @@ myRouter.route('/:stat/:token/:login/:orga').get(async function(req,res){
 
 		case 'populareLanguages':
 			await stats.getPopulareLanguages(req.params.token, req.params.orga, req.params.login)
+								 .then(obj => res.json(obj))
+								 .catch(err => res.json( {"error": err.message} ));
+			break;
+		
+		case 'popularePL':
+			await stats.getMembresPROnPopulareRepo(req.params.token, req.params.orga, req.params.login)
 								 .then(obj => res.json(obj))
 								 .catch(err => res.json( {"error": err.message} ));
 			break;
