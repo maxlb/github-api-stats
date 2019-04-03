@@ -96,7 +96,7 @@ L'installation est très simple:
     Ici, le membre de l'organisation *Bart Lannoeye* a réalisé 22 PR (qui ont été mergées) sur des répertoires externes à l'organisation qui possèdent plus de 1000 étoiles. Parmi eux, le répertoire *dotnet* de *Microsoft* dont le principal langage est *HTML* et qui possède *10691* étoiles où il a réalisé *2* PR aux dates indiquées.
     
  ## Répertoires auxquels la communauté contribue
-  - URL : /**populareRepo**
+  - URL : /**collaborativesRepos**
   - Permet d'obtenir les répertoires de l'organisation ayant des contributeurs externes dans ses pull request mergées.
   - Retour JSON : 
     ```JSON
