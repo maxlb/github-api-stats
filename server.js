@@ -53,7 +53,7 @@ app.post('/:stat/', async function(req, res){
 
 		// Appel et réponse de la statistique
 		await stats.getStat(req.params.stat, req.body.token, req.body.orga, req.body.login)
-						.then(obj => res.json( { ok:true , data:obj } ))
+						.then(obj => { res.json( { ok:true , data:obj } )} )
 						.catch(err => res.json( { ok:false , error:err } ));
 	} else {
 		res.json( { ok:false, error:"Aucune données reçues..."} );

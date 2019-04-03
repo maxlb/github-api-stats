@@ -15,45 +15,32 @@ var getStat = async(stat, tokenGitHub, orgaGitHub, loginGitHub) => {
     LOGIN = loginGitHub;
     ORGA = orgaGitHub;
 
+    var stats;
+
     switch (stat) {
 		case 'basicStats':
-			await getBasicStats()
-                    .then(obj => {return obj})
-                    .catch(err => { throw err });
+            stats = await getBasicStats().catch(err => { throw err });
 			break;
-
 		case 'nbMembresStats':
-			await getNbMembres()
-                    .then(obj => {return obj})
-                    .catch(err => { throw err });
+            stats = await getNbMembres().catch(err => { throw err });
 			break;
-		
 		case 'nbRepoStats':
-			await getNbRepositories()
-                    .then(obj => {return obj})
-                    .catch(err => { throw err });
+            stats = await getNbRepositories().catch(err => { throw err });
 			break;
-
 		case 'populareLanguages':
-			await getPopulareLanguages()
-                    .then(obj => {return obj})
-                    .catch(err => { throw err });
+            stats = await getPopulareLanguages().catch(err => { throw err });
 			break;
-		
 		case 'popularePR':
-			await getMembresPROnPopulareRepo()
-                    .then(obj => {return obj})
-                    .catch(err => { throw err });
+            stats = await getMembresPROnPopulareRepo().catch(err => { throw err });
 			break;
 		case 'collaborativesRepos':
-			await getCollaborativesRepos()
-                    .then(obj => {return obj})
-                    .catch(err => { throw err });
+            stats = await getCollaborativesRepos().catch(err => { throw err });
 			break;
-	
         default:
             throw {"ok": false, "error": "Route invalide : " + req.params.stat};
-	}
+    }
+    
+    return stats;
 }
 
 var PRonExistingRepo = function (PRObject, value) {
