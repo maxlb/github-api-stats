@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "fb9a925a-41b1-41d5-aac4-df46810b1eb5",
+		"name": "GitHub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Accueil",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "139cab48-f50c-40ac-a38c-15614e6e4b62",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "basicStats",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "139cab48-f50c-40ac-a38c-15614e6e4b62",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "maxlb",
+							"type": "text"
+						},
+						{
+							"key": "orga",
+							"value": "PrismLibrary",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/basicStats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"basicStats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nbMembresStats",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "139cab48-f50c-40ac-a38c-15614e6e4b62",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "maxlb",
+							"type": "text"
+						},
+						{
+							"key": "orga",
+							"value": "PrismLibrary",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/nbMembresStats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nbMembresStats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nbRepoStats",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "139cab48-f50c-40ac-a38c-15614e6e4b62",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "maxlb",
+							"type": "text"
+						},
+						{
+							"key": "orga",
+							"value": "PrismLibrary",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/nbRepoStats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nbRepoStats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "populareLanguages",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "139cab48-f50c-40ac-a38c-15614e6e4b62",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "maxlb",
+							"type": "text"
+						},
+						{
+							"key": "orga",
+							"value": "PrismLibrary",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/populareLanguages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"populareLanguages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "popularePR",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "139cab48-f50c-40ac-a38c-15614e6e4b62",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "maxlb",
+							"type": "text"
+						},
+						{
+							"key": "orga",
+							"value": "PrismLibrary",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/popularePR",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"popularePR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "populareRepo",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "139cab48-f50c-40ac-a38c-15614e6e4b62",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"type": "text"
+						},
+						{
+							"key": "login",
+							"value": "maxlb",
+							"type": "text"
+						},
+						{
+							"key": "orga",
+							"value": "PrismLibrary",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/populareRepo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"populareRepo"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
