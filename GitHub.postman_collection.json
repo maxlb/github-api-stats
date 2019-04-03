@@ -75,17 +75,17 @@
 					"urlencoded": [
 						{
 							"key": "token",
-							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"value": "TOKEN",
 							"type": "text"
 						},
 						{
 							"key": "login",
-							"value": "maxlb",
+							"value": "LOGIN",
 							"type": "text"
 						},
 						{
 							"key": "orga",
-							"value": "PrismLibrary",
+							"value": "ORGA",
 							"type": "text"
 						}
 					]
@@ -136,17 +136,17 @@
 					"urlencoded": [
 						{
 							"key": "token",
-							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"value": "TOKEN",
 							"type": "text"
 						},
 						{
 							"key": "login",
-							"value": "maxlb",
+							"value": "LOGIN",
 							"type": "text"
 						},
 						{
 							"key": "orga",
-							"value": "PrismLibrary",
+							"value": "ORGA",
 							"type": "text"
 						}
 					]
@@ -197,17 +197,17 @@
 					"urlencoded": [
 						{
 							"key": "token",
-							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"value": "TOKEN",
 							"type": "text"
 						},
 						{
 							"key": "login",
-							"value": "maxlb",
+							"value": "LOGIN",
 							"type": "text"
 						},
 						{
 							"key": "orga",
-							"value": "PrismLibrary",
+							"value": "ORGA",
 							"type": "text"
 						}
 					]
@@ -258,17 +258,17 @@
 					"urlencoded": [
 						{
 							"key": "token",
-							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"value": "TOKEN",
 							"type": "text"
 						},
 						{
 							"key": "login",
-							"value": "maxlb",
+							"value": "LOGIN",
 							"type": "text"
 						},
 						{
 							"key": "orga",
-							"value": "PrismLibrary",
+							"value": "ORGA",
 							"type": "text"
 						}
 					]
@@ -319,17 +319,17 @@
 					"urlencoded": [
 						{
 							"key": "token",
-							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"value": "TOKEN",
 							"type": "text"
 						},
 						{
 							"key": "login",
-							"value": "maxlb",
+							"value": "LOGIN",
 							"type": "text"
 						},
 						{
 							"key": "orga",
-							"value": "PrismLibrary",
+							"value": "ORGA",
 							"type": "text"
 						}
 					]
@@ -380,17 +380,17 @@
 					"urlencoded": [
 						{
 							"key": "token",
-							"value": "0ddcc2165d434a845525fb0f733994d4e60372ab",
+							"value": "TOKEN",
 							"type": "text"
 						},
 						{
 							"key": "login",
-							"value": "maxlb",
+							"value": "LOGIN",
 							"type": "text"
 						},
 						{
 							"key": "orga",
-							"value": "PrismLibrary",
+							"value": "ORGA",
 							"type": "text"
 						}
 					]
