@@ -9,6 +9,21 @@ L'installation est très simple:
       * **token** : Il s'agit de votre token developpeur de GitHub.
       * **login** : Il s'agit de votre login GitHub.
       * **orga** : Il s'agit de login GitHub de l'organisation dont vous voulez récupérer les statistiques.
+  5. Les retour sont sous la forme suivante : 
+      * Si tout se passe bien :
+      ```JSON
+      {
+        "ok":true,
+        "data":{ STATISTIQUES }
+      }
+      ```
+      * Si une erreur intervient :
+      ```JSON
+      {
+        "ok":false,
+        "error":{ ERREUR }
+      }
+      ```
 
 ## Statistiques diverses
   - URL : /**basicStats**
