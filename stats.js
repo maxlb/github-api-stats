@@ -1,9 +1,59 @@
-var utils = require('./utils')
+var utils = require('./utils');
+
+var TOKEN;
+var LOGIN;
+var ORGA;
 
 const asyncForEach = async(array, callback) => {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array)
     }
+}
+
+var getStat = async(stat, tokenGitHub, orgaGitHub, loginGitHub) => {
+    TOKEN = tokenGitHub;
+    LOGIN = loginGitHub;
+    ORGA = orgaGitHub;
+
+    switch (stat) {
+		case 'basicStats':
+			await getBasicStats()
+                    .then(obj => {return obj})
+                    .catch(err => { throw err });
+			break;
+
+		case 'nbMembresStats':
+			await getNbMembres()
+                    .then(obj => {return obj})
+                    .catch(err => { throw err });
+			break;
+		
+		case 'nbRepoStats':
+			await getNbRepositories()
+                    .then(obj => {return obj})
+                    .catch(err => { throw err });
+			break;
+
+		case 'populareLanguages':
+			await getPopulareLanguages()
+                    .then(obj => {return obj})
+                    .catch(err => { throw err });
+			break;
+		
+		case 'popularePR':
+			await getMembresPROnPopulareRepo()
+                    .then(obj => {return obj})
+                    .catch(err => { throw err });
+			break;
+		case 'collaborativesRepos':
+			await getCollaborativesRepos()
+                    .then(obj => {return obj})
+                    .catch(err => { throw err });
+			break;
+	
+        default:
+            throw {"ok": false, "error": "Route invalide : " + req.params.stat};
+	}
 }
 
 var PRonExistingRepo = function (PRObject, value) {
@@ -16,19 +66,19 @@ var PRonExistingRepo = function (PRObject, value) {
     return index;
 }
 
-var getNbMembres = async function(token, orga, login) {
+var getNbMembres = async function() {
     var query = `query {
-                    organization(login: "${orga}") {
+                    organization(login: "${ORGA}") {
                         membersWithRole(first: 1) {
                             totalCount
                         }
                     }
                 }`;
 
-    var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+    var res = await utils.graphQLCall(TOKEN, LOGIN, query).catch(error => { throw error; } );
 
     var jsonRes = {
-        organization: orga,
+        organization: ORGA,
         countMembers: res.data.organization.membersWithRole.totalCount
     };
     
@@ -36,19 +86,19 @@ var getNbMembres = async function(token, orga, login) {
     return jsonRes;
 }
 
-var getNbRepositories = async function(token, orga, login) {
+var getNbRepositories = async function() {
     var query = `query {
-                    organization(login: "${orga}") {
+                    organization(login: "${ORGA}") {
                         repositories {
                             totalCount
                         }
                     }
                 }`;
 
-    var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+    var res = await utils.graphQLCall(TOKEN, LOGIN, query).catch(error => { throw error; } );
 
     var jsonRes = {
-        organization: orga,
+        organization: ORGA,
         countRepositories: res.data.organization.repositories.totalCount
     };
     
@@ -56,7 +106,7 @@ var getNbRepositories = async function(token, orga, login) {
     return jsonRes;
 }
 
-var getPopulareLanguages = async function(token, orga, login) {
+var getPopulareLanguages = async function() {
 
     var listLanguages = [];
     var listUsage = [];
@@ -67,7 +117,7 @@ var getPopulareLanguages = async function(token, orga, login) {
 
         // Requête
         var query = `query {
-            organization(login: "${orga}") {
+            organization(login: "${ORGA}") {
                 repositories(after:"${curseur}", first: 100) {
                     edges {
                         cursor
@@ -86,7 +136,7 @@ var getPopulareLanguages = async function(token, orga, login) {
         }`;
 
         // Collecte des résultats
-        var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+        var res = await utils.graphQLCall(TOKEN, LOGIN, query).catch(error => { throw error; } );
         res.data.organization.repositories.edges.forEach(repo => {
 
             if (repo.node.primaryLanguage != null) {
@@ -109,7 +159,7 @@ var getPopulareLanguages = async function(token, orga, login) {
     }
 
     var jsonRes = {
-        organization: orga,
+        organization: ORGA,
         langages: listLanguages,
         nbRepositories: listUsage
     };
@@ -118,7 +168,7 @@ var getPopulareLanguages = async function(token, orga, login) {
     return jsonRes;
 }
 
-var getMembresPROnPopulareRepo = async function(token, orga, login) {
+var getMembresPROnPopulareRepo = async function() {
 
     var listMembers = [];
     var listPopularePR = [];
@@ -138,7 +188,7 @@ var getMembresPROnPopulareRepo = async function(token, orga, login) {
 
         // Requête
         var query = `query {
-            organization(login: "${orga}") {
+            organization(login: "${ORGA}") {
                 membersWithRole(${curseurString} first:100) {
                     edges {
                       cursor
@@ -156,7 +206,7 @@ var getMembresPROnPopulareRepo = async function(token, orga, login) {
         }`;
 
         // Collecte des résultats
-        var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+        var res = await utils.graphQLCall(TOKEN, LOGIN, query).catch(error => { throw error; } );
         res.data.organization.membersWithRole.edges.forEach(membre => {
             listMembers.push({
                 login: membre.node.login,
@@ -221,9 +271,9 @@ var getMembresPROnPopulareRepo = async function(token, orga, login) {
             }`;
 
             // Collecte des résultats
-            var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+            var res = await utils.graphQLCall(TOKEN, LOGIN, query).catch(error => { throw error; } );
             res.data.user.pullRequests.edges.forEach(PR => {
-                if (PR.node.repository.stargazers.totalCount >= 1000 && PR.node.repository.owner.login != orga) {
+                if (PR.node.repository.stargazers.totalCount >= 1000 && PR.node.repository.owner.login != ORGA) {
                     var indexRepo = PRonExistingRepo(memberPopularePR.popularePR, PR.node.repository.name);
                     if (indexRepo >= 0) {
                         memberPopularePR.popularePR[indexRepo].repository.pullRequests.mergedDates.push(PR.node.mergedAt);
@@ -265,7 +315,7 @@ var getMembresPROnPopulareRepo = async function(token, orga, login) {
     return listPopularePR;
 }
 
-var getAllRepos = async function(token, orga, login) {
+var getAllRepos = async function() {
     var listRepos = [];
 
     var hasNextPage = true;
@@ -283,7 +333,7 @@ var getAllRepos = async function(token, orga, login) {
         }
 
         var query = `query {
-            organization (login: "${orga}") {
+            organization (login: "${ORGA}") {
                 repositories (${curseurString} first: 5) {
                     pageInfo {
                         hasNextPage,
@@ -306,7 +356,7 @@ var getAllRepos = async function(token, orga, login) {
         }`;
 
         // Collecte des résultats - les Repos
-        var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+        var res = await utils.graphQLCall(TOKEN, LOGIN, query).catch(error => { throw error; } );
         res.data.organization.repositories.edges.forEach(repo => {
              // Récuération des Repos
              var repoLang = repo.node.primaryLanguage == null ? "Inconnu" : repo.node.primaryLanguage;
@@ -327,7 +377,7 @@ var getAllRepos = async function(token, orga, login) {
 
 }
 
-var getPRByRepoName =  async function(token, orga, login, nameRepo) {
+var getPRByRepoName =  async function(nameRepo) {
     var listPR = [];
 
     var hasNextPage = true;
@@ -345,7 +395,7 @@ var getPRByRepoName =  async function(token, orga, login, nameRepo) {
         }
 
         var query = `query {
-            repository(name:"${nameRepo}", owner:"${orga}") {
+            repository(name:"${nameRepo}", owner:"${ORGA}") {
                 pullRequests ( ${curseurString} first:100, states: MERGED) {
                     pageInfo {
                         hasNextPage,
@@ -374,7 +424,7 @@ var getPRByRepoName =  async function(token, orga, login, nameRepo) {
         }`;
 
         // Collecte des résultats - les Repos
-        var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+        var res = await utils.graphQLCall(TOKEN, LOGIN, query).catch(error => { throw error; } );
 
         res.data.repository.pullRequests.edges.forEach(PR => {
             
@@ -383,7 +433,7 @@ var getPRByRepoName =  async function(token, orga, login, nameRepo) {
             PR.node.participants.nodes.forEach(PRpart => {
                 var partExterne = true;
                 PRpart.organizations.nodes.forEach(partOrga => {
-                    if (partOrga.login == orga) {
+                    if (partOrga.login == ORGA) {
                         partExterne = false
                     }
                 });
@@ -416,16 +466,16 @@ var getPRByRepoName =  async function(token, orga, login, nameRepo) {
     return listPR;
 }
 
-var getPopulareRepo = async function(token, orga, login) {
+var getCollaborativesRepos = async function() {
     var listAllRepos = [];
     var listRepos = [];
 
     // Récupération des repos de l'organisation
-    listAllRepos = await getAllRepos(token, orga, login);
+    listAllRepos = await getAllRepos();
 
     // Récupération des PR avec participants externes
     await asyncForEach(listAllRepos, async (repo) => {
-        repo.PRExternes = await getPRByRepoName(token, orga, login, repo.name);
+        repo.PRExternes = await getPRByRepoName(repo.name);
         repo.nbPRExternes = repo.PRExternes.length;
     });
 
@@ -439,9 +489,9 @@ var getPopulareRepo = async function(token, orga, login) {
     return listRepos;
 }
 
-var getBasicStats = async function(token, orga) {
+var getBasicStats = async function() {
     var query = `query {
-                    organization(login: "${orga}") { 
+                    organization(login: "${ORGA}") { 
                         membersWithRole(first: 100) { 
                             edges { 
                                 node { 
@@ -473,14 +523,9 @@ var getBasicStats = async function(token, orga) {
                 }`;
 
     
-    var res = await utils.graphQLCall(token, 'maxlb', query).catch(error => { throw error; } );
+    var res = await utils.graphQLCall(TOKEN, 'maxlb', query).catch(error => { throw error; } );
     console.log('Stats - Requête GitHub réussie !');
     return res;
 }
 
-exports.getBasicStats = getBasicStats;
-exports.getNbMembres = getNbMembres;
-exports.getNbRepositories = getNbRepositories;
-exports.getPopulareLanguages = getPopulareLanguages;
-exports.getMembresPROnPopulareRepo = getMembresPROnPopulareRepo;
-exports.getPopulareRepo = getPopulareRepo;
+exports.getStat = getStat;
