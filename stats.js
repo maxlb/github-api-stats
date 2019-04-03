@@ -255,14 +255,189 @@ var getMembresPROnPopulareRepo = async function(token, orga, login) {
         }
 
         // Stockage des résultats
-        listPopularePR.push(memberPopularePR);
+        if (memberPopularePR.count > 0) {
+            listPopularePR.push(memberPopularePR);
+        }
+        
     })
     
     console.log('Stats - Renvoi JSON réussi !');
     return listPopularePR;
 }
 
+var getAllRepos = async function(token, orga, login) {
+    var listRepos = [];
 
+    var hasNextPage = true;
+    var curseur = "";
+    var curseurString = "";
+
+    // Récupération des repos populaires de l'organisation
+    while(hasNextPage) {
+        
+        // Gestion de la pagniation sur les répertoires
+        if(curseur != "") {
+            curseurString = 'after:"' + curseur + '",';
+        } else {
+            curseurString = "";
+        }
+
+        var query = `query {
+            organization (login: "${orga}") {
+                repositories (${curseurString} first: 5) {
+                    pageInfo {
+                        hasNextPage,
+                        endCursor
+                    }
+                    edges {
+                        cursor,
+                        node {
+                            name,
+                            stargazers {
+                                totalCount
+                            },
+                            primaryLanguage {
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }`;
+
+        // Collecte des résultats - les Repos
+        var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+        res.data.organization.repositories.edges.forEach(repo => {
+             // Récuération des Repos
+             var repoLang = repo.node.primaryLanguage == null ? "Inconnu" : repo.node.primaryLanguage;
+             listRepos.push({
+                 name: repo.node.name,
+                 stars: repo.node.stargazers.totalCount,
+                 language: repoLang,
+                 PRExternes: []
+             });
+        });
+
+        // Page suivante
+        hasNextPage = res.data.organization.repositories.pageInfo.hasNextPage;
+        curseur = res.data.organization.repositories.pageInfo.endCursor;
+    }
+
+    return listRepos;
+
+}
+
+var getPRByRepoName =  async function(token, orga, login, nameRepo) {
+    var listPR = [];
+
+    var hasNextPage = true;
+    var curseur = "";
+    var curseurString = "";
+
+    // Récupération des repos populaires de l'organisation
+    while(hasNextPage) {
+        
+        // Gestion de la pagniation sur les répertoires
+        if(curseur != "") {
+            curseurString = 'after:"' + curseur + '",';
+        } else {
+            curseurString = "";
+        }
+
+        var query = `query {
+            repository(name:"${nameRepo}", owner:"${orga}") {
+                pullRequests ( ${curseurString} first:100, states: MERGED) {
+                    pageInfo {
+                        hasNextPage,
+                        endCursor
+                    }
+                    edges {
+                        cursor,
+                        node {
+                            mergedAt,
+                            participants(first: 10) {
+                                nodes{
+                                    login,
+                                    name,
+                                    organizations(first: 5) {
+                                        nodes {
+                                            name,
+                                            login
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }`;
+
+        // Collecte des résultats - les Repos
+        var res = await utils.graphQLCall(token, login, query).catch(error => { throw error; } );
+
+        res.data.repository.pullRequests.edges.forEach(PR => {
+            
+            partExternes = [];
+
+            PR.node.participants.nodes.forEach(PRpart => {
+                var partExterne = true;
+                PRpart.organizations.nodes.forEach(partOrga => {
+                    if (partOrga.login == orga) {
+                        partExterne = false
+                    }
+                });
+
+                if (partExterne) {
+                    partExternes.push({
+                        login: PRpart.login,
+                        name: PRpart.name,
+                        organizations: PRpart.organizations.nodes
+                    });
+                }
+            })
+            
+            // Récuération des PR avec participants externes
+            if(partExternes.length > 0){
+                listPR.push({
+                    date: PR.node.mergedAt,
+                    nbParticipantsExternes: partExternes.length,
+                    participantsExternes: partExternes
+                });
+            }
+
+        });
+
+        // Page suivante
+        hasNextPage = res.data.repository.pullRequests.pageInfo.hasNextPage;
+        curseur = res.data.repository.pullRequests.pageInfo.endCursor;
+    }
+
+    return listPR;
+}
+
+var getPopulareRepo = async function(token, orga, login) {
+    var listAllRepos = [];
+    var listRepos = [];
+
+    // Récupération des repos de l'organisation
+    listAllRepos = await getAllRepos(token, orga, login);
+
+    // Récupération des PR avec participants externes
+    await asyncForEach(listAllRepos, async (repo) => {
+        repo.PRExternes = await getPRByRepoName(token, orga, login, repo.name);
+        repo.nbPRExternes = repo.PRExternes.length;
+    });
+
+    listAllRepos.forEach(repo => {
+        if (repo.nbPRExternes > 0) {
+            listRepos.push(repo);
+        }
+    });
+
+    console.log('Stats - Renvoi JSON réussi !');
+    return listRepos;
+}
 
 var getBasicStats = async function(token, orga) {
     var query = `query {
@@ -308,3 +483,4 @@ exports.getNbMembres = getNbMembres;
 exports.getNbRepositories = getNbRepositories;
 exports.getPopulareLanguages = getPopulareLanguages;
 exports.getMembresPROnPopulareRepo = getMembresPROnPopulareRepo;
+exports.getPopulareRepo = getPopulareRepo;
