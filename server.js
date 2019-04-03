@@ -104,6 +104,7 @@ app.post('/:stat/', async function(req, res){
 			break;
 	
 		default:
+			res.json( {"error": "Route invalide : " + req.params.stat} )
 			break;
 	}
 
