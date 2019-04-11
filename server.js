@@ -19,6 +19,7 @@ myRouter.route('/').get(function(req,res){
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', 'GET');
 	
+	
 	// Routes disponibles
 	var routes = [
 		{nom: "basicStats", 		description: "pour obtenir toutes les stats de l'organisation"},
@@ -40,8 +41,8 @@ app.post('/:stat/', async function(req, res){
 	// Autoriser l'accès
 	res.setHeader('Access-Control-Allow-Origin', '*')
 	res.setHeader('Access-Control-Allow-Methods','POST');
+	res.setHeader('Access-Control-Allow-Credentials', true);
 
-	var t = req.body;
 	if (req.body) {
 		// Log
 		console.log(`Server - Infos reçues : 
