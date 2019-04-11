@@ -69,7 +69,7 @@ var getNbMembres = async function() {
         countMembers: res.data.organization.membersWithRole.totalCount
     };
     
-    console.log('Stats - Renvoi JSON réussi !');
+    console.log('Stats getNbMembres - Renvoi JSON réussi !');
     return jsonRes;
 }
 
@@ -151,7 +151,7 @@ var getPopulareLanguages = async function() {
         nbRepositories: listUsage
     };
     
-    console.log('Stats - Renvoi JSON réussi !');
+    console.log('Stats getPopulareLanguages - Renvoi JSON réussi !');
     return jsonRes;
 }
 
@@ -298,7 +298,7 @@ var getMembresPROnPopulareRepo = async function() {
         
     })
     
-    console.log('Stats - Renvoi JSON réussi !');
+    console.log('Stats getMembresPROnPopulareRepo - Renvoi JSON réussi !');
     return listPopularePR;
 }
 
@@ -511,7 +511,7 @@ var getBasicStats = async function() {
 
     
     var res = await utils.graphQLCall(TOKEN, 'maxlb', query).catch(error => { throw error; } );
-    console.log('Stats - Requête GitHub réussie !');
+    console.log('Stats getCollaborativesRepos - Requête GitHub réussie !');
     return res;
 }
 
