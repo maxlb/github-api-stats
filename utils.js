@@ -8,12 +8,10 @@ var graphQLCall  = async function(token, login, query) {
         body: {
             query: query
         },
-        qs: {
-            access_token: token
-        },
         headers: {
-            'User-Agent': login
-        },
+            'User-Agent': login,
+			'Authorization': 'token ' + token
+		},
         json: true
     };
 
